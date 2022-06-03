@@ -4,7 +4,7 @@ const fs = require("fs");
 const fsPromises = fs.promises;
 const path = require("path");
 const yesno = require("yesno");
-const  childProcess = require("child_process");
+const childProcess = require("child_process");
 
 const rootDirectory = "../../";
 
@@ -17,13 +17,13 @@ const lockFilePath = path.join(rootDirectory, lockFile);
 async function main() {
     let config = JSON.parse(fs.readFileSync(path.join(process.cwd(), "config.json")));
     gitHelper.reset();
-    gitHelper.pull();    
+    gitHelper.pull();
     if (fs.existsSync(lockFilePath)) {
         console.log("lock file is present, someone is sneaky or this shit bugget out!");
         let result = await yesno({
-            question: "Do you want to proceeed?: (y|n)" 
+            question: "Do you want to proceeed?: (y|n)"
         });
-        if(!result){
+        if (!result) {
             process.exit();
         }
     }
@@ -34,7 +34,20 @@ async function main() {
     fs.readdirSync(saveFileDirectoryPath).forEach(file => {
         fs.copyFileSync(path.join(saveFileDirectoryPath, file), path.join(config.saveLocation, file))
     });
-    childProcess.execFileSync(config.installLocation, ["-NoSteamClient"]);
+    try {
+        childProcess.execFileSync(config.installLocation);
+    } catch (ex) {
+        //Ignored
+    }
+    await new Promise((resolve, reject) => {
+        let ii = setInterval(() => {
+            let contians = childProcess.execSync("tasklist").toString("utf-8").split("\n").some(item => item.includes("FactoryGame.exe"));
+            if(contains){
+                clearInterval(ii);
+                resolve();
+            }
+        }, 1000);
+    });
     fs.unlinkSync(lockFilePath);
     let promises = fs.readdirSync(config.saveLocation).filter(file => file.includes(".sav")).map(saveFile => {
         return parseSaveFile(path.join(config.saveLocation, saveFile));
