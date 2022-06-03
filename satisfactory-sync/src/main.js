@@ -42,11 +42,11 @@ async function main() {
     await new Promise((resolve, reject) => {
         let ii = setInterval(() => {
             let contains = childProcess.execSync("tasklist").toString("utf-8").split("\n").some(item => item.includes("FactoryGame.exe"));
-            if(contains){
+            if(!contains){
                 clearInterval(ii);
                 resolve();
             }
-        }, 1000);
+        }, 30000);
     });
     fs.unlinkSync(lockFilePath);
     let promises = fs.readdirSync(config.saveLocation).filter(file => file.includes(".sav")).map(saveFile => {
