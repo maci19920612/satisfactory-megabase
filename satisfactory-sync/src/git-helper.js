@@ -16,7 +16,7 @@ module.exports = {
     },
     commit(message){
         console.log("Git: commit with message: ", message);
-        childProcess.execSync(`git commit -m '${message}'`, {
+        childProcess.execSync(`git commit -m \"${message}\"`, {
             cwd: process.cwd()
         });
     },
