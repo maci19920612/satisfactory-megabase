@@ -36,10 +36,9 @@ async function main() {
     });
     childProcess.execFileSync(config.installLocation, ["-NoSteamClient"]);
     fs.unlinkSync(lockFilePath);
-    let promises = fs.readdirSync(config.saveLocation).map(saveFile => {
+    let promises = fs.readdirSync(config.saveLocation).filter(file => file.includes(".sav")).map(saveFile => {
         return parseSaveFile(path.join(config.saveLocation, saveFile));
-    })
-    console.log(promises);
+    });
     let updatedSaveFiles = (await Promise.all(promises)).filter(saveData => saveData.sessionName == config.sessionName).map(saveData => saveData.file)
     updatedSaveFiles.forEach(updatedSaveFile => {
         fs.copyFileSync(updatedSaveFile, path.join(saveFileDirectoryPath, path.basename(updatedSaveFile)))
