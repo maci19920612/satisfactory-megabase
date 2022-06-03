@@ -41,7 +41,7 @@ async function main() {
     }
     await new Promise((resolve, reject) => {
         let ii = setInterval(() => {
-            let contians = childProcess.execSync("tasklist").toString("utf-8").split("\n").some(item => item.includes("FactoryGame.exe"));
+            let contains = childProcess.execSync("tasklist").toString("utf-8").split("\n").some(item => item.includes("FactoryGame.exe"));
             if(contains){
                 clearInterval(ii);
                 resolve();
