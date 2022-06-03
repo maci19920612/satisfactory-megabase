@@ -18,7 +18,7 @@ async function main() {
     let config = JSON.parse(fs.readFileSync(path.join(process.cwd(), "config.json")));
     gitHelper.reset();
     gitHelper.pull();    
-    if (fs.existsSync(lockFile)) {
+    if (fs.existsSync(lockFilePath)) {
         console.log("lock file is present, someone is sneaky or this shit bugget out!");
         let result = await yesno({
             question: "Do you want to proceeed?: (y|n)" 
