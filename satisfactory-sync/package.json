@@ -1,0 +1,31 @@
+{
+  "name": "satisfactory-sync",
+  "version": "1.0.0",
+  "description": "Satisfactory save sync + save file parser",
+  "main": "src/main.js",
+  "scripts": {
+    "package": "pkg ."
+  },
+  "keywords": [
+    "satisfactory",
+    "satisfactory-save-parser"
+  ],
+  "author": "f.david314",
+  "license": "ISC",
+  "devDependencies": {
+    "pkg": "^5.7.0"
+  },
+  "dependencies": {
+    "yesno": "^0.3.1"
+  },
+  "bin": "./src/main.js",
+  "pkg": {
+    "scripts": "src/**/*.js",
+    "targets": [
+      "node16-linux-x64",
+      "node16-win-x64",
+      "node16-macos-x64"
+    ],
+    "outputPath": "dist"
+  }
+}
